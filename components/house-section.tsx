@@ -12,11 +12,11 @@ const COURTYARD =
 const HISTORY = [
   {
     year: "1968",
-    note: "Eléni's grandmother lets the first two rooms to a couple whose boat never came.",
+    note: "Eléni’s grandmother lets the first two rooms to a couple whose boat never came.",
   },
   {
     year: "1984",
-    note: "The terrace is cut into the rock. It takes two summers and most of the family's savings.",
+    note: "The terrace is cut into the rock. It takes two summers and most of the family’s savings.",
   },
   {
     year: "2007",
@@ -79,15 +79,19 @@ export function HouseSection() {
 
             <ol className="mt-12 border-t border-rule">
               {HISTORY.map((entry, i) => (
-                <Reveal key={entry.year} delay={0.06 * i}>
-                  <li className="flex items-baseline gap-8 border-b border-rule py-6">
-                    <span className="font-display text-[1.5rem] leading-none text-marine tabular-nums">
-                      {entry.year}
-                    </span>
-                    <span className="max-w-[44ch] text-[0.9375rem] leading-[1.7] text-muted">
-                      {entry.note}
-                    </span>
-                  </li>
+                // Reveal renders the <li> itself — an <ol> may only contain <li>.
+                <Reveal
+                  as="li"
+                  key={entry.year}
+                  delay={0.06 * i}
+                  className="flex items-baseline gap-8 border-b border-rule py-6"
+                >
+                  <span className="font-display text-[1.5rem] leading-none text-marine tabular-nums">
+                    {entry.year}
+                  </span>
+                  <span className="max-w-[44ch] text-[0.9375rem] leading-[1.7] text-muted">
+                    {entry.note}
+                  </span>
                 </Reveal>
               ))}
             </ol>

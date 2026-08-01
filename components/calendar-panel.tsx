@@ -20,6 +20,7 @@ type Props = {
   depart: Date | null;
   onPick: (day: Date) => void;
   onClear: () => void;
+  placement: "up" | "down";
 };
 
 function NavButton({
@@ -46,7 +47,13 @@ function NavButton({
   );
 }
 
-export function CalendarPanel({ arrive, depart, onPick, onClear }: Props) {
+export function CalendarPanel({
+  arrive,
+  depart,
+  onPick,
+  onClear,
+  placement,
+}: Props) {
   const today = startOfDay(new Date());
   const [view, setView] = useState(() => startOfMonth(arrive ?? today));
   const [hovered, setHovered] = useState<Date | null>(null);
@@ -64,7 +71,11 @@ export function CalendarPanel({ arrive, depart, onPick, onClear }: Props) {
   const nights = arrive && depart ? nightsBetween(arrive, depart) : 0;
 
   return (
-    <div className="pop absolute bottom-full left-0 z-40 mb-4 w-[min(92vw,21rem)] border border-rule bg-paper p-5 shadow-[0_28px_60px_-28px_rgba(7,36,62,0.5)] sm:w-[38rem] sm:p-6">
+    <div
+      className={`pop absolute left-0 z-40 w-[min(92vw,21rem)] border border-rule bg-paper p-5 shadow-[0_28px_60px_-28px_rgba(7,36,62,0.5)] sm:w-[38rem] sm:p-6 ${
+        placement === "up" ? "bottom-full mb-4" : "top-full mt-4"
+      }`}
+    >
       <div className="mb-5 flex items-center justify-between">
         <NavButton
           label="Previous month"

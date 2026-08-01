@@ -19,7 +19,7 @@ const ITEMS = [
   },
   {
     q: "How do cancellations work?",
-    a: "Cancel more than fourteen days before you arrive and we refund everything. Inside fourteen days we keep the first night. In August we ask for the first night up front.",
+    a: "Cancel more than fourteen days before you arrive and we refund everything. Inside fourteen days we keep the first night. In August the deposit is non-refundable whenever you cancel.",
   },
   {
     q: "Is the house accessible?",

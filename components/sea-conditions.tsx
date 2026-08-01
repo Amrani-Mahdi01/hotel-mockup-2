@@ -21,8 +21,29 @@ const subscribe = (onChange: () => void) => {
   return () => window.clearInterval(id);
 };
 
+// Greece is on EEST only from late March to late October; the rest of the year
+// it is EET. Let the tz database decide rather than hard-coding one that would
+// be wrong for roughly five months. `short` yields "EEST"/"EET" directly; some
+// engines return "GMT+3" instead, so normalise those.
+const zoneLabel = (d: Date) => {
+  const name =
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Athens",
+      timeZoneName: "short",
+    })
+      .formatToParts(d)
+      .find((p) => p.type === "timeZoneName")?.value ?? "";
+
+  if (/\+3/.test(name)) return "EEST";
+  if (/\+2/.test(name)) return "EET";
+  return name || "EET";
+};
+
 // Stable within the minute, so React's Object.is check settles immediately.
-const getSnapshot = () => athensClock.format(new Date());
+const getSnapshot = () => {
+  const now = new Date();
+  return `${athensClock.format(now)} ${zoneLabel(now)}`;
+};
 
 // The server has no business guessing the clock — it renders the placeholder.
 const getServerSnapshot = () => null;
@@ -43,7 +64,7 @@ export function SeaConditionsStrip({ tone = "dark" }: { tone?: Tone }) {
       style={{ "--d": "1.05s" } as React.CSSProperties}
     >
       <span
-        className={`data-label mb-3 block ${light ? "text-white/55" : "text-muted"}`}
+        className={`data-label mb-3 block ${light ? "text-white/70" : "text-muted"}`}
       >
         Today at the house
       </span>
@@ -64,9 +85,9 @@ export function SeaConditionsStrip({ tone = "dark" }: { tone?: Tone }) {
           className={`h-5 w-px shrink-0 ${light ? "bg-white/30" : "bg-rule"}`}
         />
         <span
-          className={`data-label whitespace-nowrap ${light ? "text-white/55" : "text-muted"}`}
+          className={`data-label whitespace-nowrap ${light ? "text-white/70" : "text-muted"}`}
         >
-          {time ? `${time} EEST` : "—— EEST"}
+          {time ?? "—— EET"}
         </span>
       </div>
     </div>

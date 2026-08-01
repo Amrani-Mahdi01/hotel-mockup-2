@@ -84,11 +84,33 @@ function Lightbox({
   const closeRef = useRef<HTMLButtonElement>(null);
   const shot = SHOTS[index];
 
+  const panelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowRight") onStep(1);
       if (e.key === "ArrowLeft") onStep(-1);
+
+      // aria-modal is a promise to assistive tech, not a behaviour — without
+      // this, Tab walks straight out onto the page behind the overlay.
+      if (e.key === "Tab") {
+        const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
+          "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])",
+        );
+        if (!focusable || focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey && (active === first || !panelRef.current?.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener("keydown", onKey);
 
@@ -105,13 +127,14 @@ function Lightbox({
 
   return (
     <div
+      ref={panelRef}
       role="dialog"
       aria-modal="true"
       aria-label={`${shot.caption} — image ${index + 1} of ${SHOTS.length}`}
       className="on-ink fixed inset-0 z-[100] flex flex-col bg-ink/97 backdrop-blur-sm"
     >
       <div className="flex items-center justify-between px-6 py-5 sm:px-10">
-        <span className="data-label text-white/50">
+        <span className="data-label text-white/65">
           {String(index + 1).padStart(2, "0")} / {SHOTS.length}
         </span>
         <button

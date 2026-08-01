@@ -112,7 +112,7 @@ export function TableSection() {
 
       {/* A wide detail band, run to the edges of the page */}
       <Reveal className="mt-20 lg:mt-28">
-        <div className="relative aspect-[21/9] w-full overflow-hidden bg-paper sm:aspect-[3/1]">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper sm:aspect-[3/1]">
           <Image
             src={SETTING}
             alt="Crystal glasses and silver laid on pale blue-white linen in dappled sunlight"

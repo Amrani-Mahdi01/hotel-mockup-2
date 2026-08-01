@@ -10,12 +10,15 @@ export function Reveal({
   children,
   delay = 0,
   className = "",
+  as: Tag = "div",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  /** Lets the wrapper become an <li> so it can sit legally inside <ol>/<ul>. */
+  as?: "div" | "li";
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement & HTMLLIElement>(null);
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -37,13 +40,13 @@ export function Reveal({
   }, []);
 
   return (
-    <div
+    <Tag
       ref={ref}
       data-shown={shown}
       style={{ "--d": `${delay}s` } as React.CSSProperties}
       className={`in-view ${className}`}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

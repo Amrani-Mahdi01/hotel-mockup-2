@@ -35,7 +35,7 @@ function Trigger({
   value: string | null;
   placeholder: string;
   open: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   delay: string;
 }) {
   return (
@@ -68,18 +68,29 @@ export function ReservationBar() {
   const [depart, setDepart] = useState<Date | null>(null);
   const [party, setParty] = useState<Party>({ adults: 2, children: 0 });
   const [field, setField] = useState<Field | null>(null);
+  const [placement, setPlacement] = useState<"up" | "down">("up");
 
   const close = useCallback(() => setField(null), []);
 
   const datesRef = useDismiss(field === "arrive" || field === "depart", close);
   const guestsRef = useDismiss(field === "guests", close);
 
-  const toggle = (next: Field) => setField((f) => (f === next ? null : next));
+  // The rail sits at the foot of the hero, so it is usually near the top of the
+  // viewport once you follow a Reserve link — opening upward would put the
+  // calendar off-screen. Measure on click; doing it in an effect would mean a
+  // setState during render.
+  const toggle = (next: Field, e: React.MouseEvent<HTMLButtonElement>) => {
+    const { top } = e.currentTarget.getBoundingClientRect();
+    setPlacement(top > 500 ? "up" : "down");
+    setField((f) => (f === next ? null : next));
+  };
 
   // One calendar drives both ends: first click sets arrival, second departure.
   // The panel stays anchored where it opened so it never jumps mid-selection.
+  // `!isBefore(arrive, day)` also catches day === arrive, which previously fell
+  // through and booked a zero-night stay.
   const pickDay = (day: Date) => {
-    if (!arrive || depart || isBefore(day, arrive)) {
+    if (!arrive || depart || !isBefore(arrive, day)) {
       setArrive(day);
       setDepart(null);
       return;
@@ -99,6 +110,7 @@ export function ReservationBar() {
       depart={depart}
       onPick={pickDay}
       onClear={clearDates}
+      placement={placement}
     />
   );
 
@@ -107,6 +119,9 @@ export function ReservationBar() {
       id="reserve"
       onSubmit={(e) => e.preventDefault()}
       aria-label="Check room availability"
+      // Without this the fixed header covers the whole rail when you follow a
+      // Reserve link, exactly as it would any other section.
+      className="scroll-mt-28"
     >
       <div
         className="rule-draw h-px w-full bg-rule"
@@ -121,7 +136,7 @@ export function ReservationBar() {
               value={arrive ? formatTrigger(arrive) : null}
               placeholder="Select date"
               open={field === "arrive"}
-              onClick={() => toggle("arrive")}
+              onClick={(e) => toggle("arrive", e)}
               delay="1s"
             />
             {field === "arrive" && calendar}
@@ -133,7 +148,7 @@ export function ReservationBar() {
               value={depart ? formatTrigger(depart) : null}
               placeholder="Select date"
               open={field === "depart"}
-              onClick={() => toggle("depart")}
+              onClick={(e) => toggle("depart", e)}
               delay="1.07s"
             />
             {field === "depart" && calendar}
@@ -146,11 +161,16 @@ export function ReservationBar() {
             value={describeParty(party)}
             placeholder="Add guests"
             open={field === "guests"}
-            onClick={() => toggle("guests")}
+            onClick={(e) => toggle("guests", e)}
             delay="1.14s"
           />
           {field === "guests" && (
-            <GuestsPanel party={party} onChange={setParty} onDone={close} />
+            <GuestsPanel
+              party={party}
+              onChange={setParty}
+              onDone={close}
+              placement={placement}
+            />
           )}
         </div>
 

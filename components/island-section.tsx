@@ -75,8 +75,10 @@ export function IslandSection() {
             aria-hidden
             className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/70 to-transparent"
           />
-          <figcaption className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
-            <div className="mx-auto max-w-[1400px] sm:px-0">
+          {/* Padding belongs on the inner container so the caption lands on the
+              same grid as every other element on the page. */}
+          <figcaption className="absolute inset-x-0 bottom-0 pb-6 sm:pb-10">
+            <div className="mx-auto max-w-[1400px] px-6 sm:px-10">
               <p className="font-display text-xl text-white/95 italic sm:text-2xl">
                 The caldera, from the terrace at Room 9
               </p>

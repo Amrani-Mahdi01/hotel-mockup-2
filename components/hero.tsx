@@ -84,7 +84,11 @@ export function Hero() {
         onMouseLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}
         onBlurCapture={() => setPaused(false)}
-        className="relative isolate flex h-[100svh] min-h-[600px] flex-col justify-end overflow-hidden lg:h-[calc(100svh-6rem)]"
+        // min-h rather than h: at 320x568 the copy stack is taller than the
+        // viewport and a fixed height clipped it off the top.
+        // on-ink: every control in here sits on the dark scrim, where the
+        // default marine focus ring is invisible.
+        className="on-ink relative isolate flex min-h-[100svh] flex-col justify-end overflow-hidden lg:min-h-[calc(100svh-6rem)]"
       >
         {/* Slides */}
         {SLIDES.map((slide, i) => (

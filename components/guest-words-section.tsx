@@ -41,7 +41,7 @@ export function GuestWordsSection() {
             <figcaption className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
               <span className="data-label text-white/80">Clara &amp; Jonas</span>
               <span aria-hidden className="h-3 w-px bg-white/25" />
-              <span className="data-label text-white/45">
+              <span className="data-label text-white/65">
                 Copenhagen · July 2026
               </span>
             </figcaption>
@@ -59,7 +59,7 @@ export function GuestWordsSection() {
                   <span className="data-label block text-white/80">
                     {entry.name}
                   </span>
-                  <span className="data-label mt-1 block text-white/40">
+                  <span className="data-label mt-1 block text-white/60">
                     {entry.from}
                   </span>
                 </figcaption>

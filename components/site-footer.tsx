@@ -12,7 +12,7 @@ const COLUMNS = [
   },
   {
     title: "Hours",
-    lines: ["Check-in from 15:00", "Check-out by 11:00", "The table 19:30 — 23:00"],
+    lines: ["Check-in from 15:00", "Check-out by 11:00", "Dinner from 19:30"],
   },
 ];
 
@@ -41,8 +41,10 @@ export function SiteFooter() {
 
         <div className="h-px bg-white/15" />
 
-        {/* Details */}
-        <div className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+        {/* Details. The outer grid stays single-column until lg: pairing it with
+            the inner 3-column grid at the same sm breakpoint squeezed the contact
+            columns to ~60px and overprinted the email address. */}
+        <div className="grid gap-12 py-16 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <NewsletterForm />
           </div>
@@ -50,7 +52,7 @@ export function SiteFooter() {
           <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6 lg:col-start-7">
             {COLUMNS.map((col) => (
               <div key={col.title}>
-                <h3 className="data-label text-white/50">{col.title}</h3>
+                <h3 className="data-label text-white/65">{col.title}</h3>
                 <ul className="mt-4 space-y-2">
                   {col.lines.map((line) => (
                     <li key={line} className="text-[0.9375rem] text-white/80">
@@ -61,7 +63,7 @@ export function SiteFooter() {
 
                 {col.title === "Reach" && (
                   <>
-                    <h3 className="data-label mt-8 text-white/50">Follow</h3>
+                    <h3 className="data-label mt-8 text-white/65">Follow</h3>
                     <ul className="mt-4 space-y-2">
                     {FOLLOW.map((f) => (
                       <li key={f.label}>
@@ -82,8 +84,10 @@ export function SiteFooter() {
         </div>
 
         {/* The mark, set as a watermark across the base of the page */}
-        <div aria-hidden className="overflow-hidden pt-6">
-          <p className="font-display text-[clamp(3.5rem,15.5vw,14rem)] leading-[0.85] tracking-[0.08em] whitespace-nowrap text-white/[0.09]">
+        {/* Padding in em so it scales with the clamped size — a fixed pt-6
+            sheared the acute accent off the Í at large viewports. */}
+        <div aria-hidden className="overflow-hidden">
+          <p className="pt-[0.22em] font-display text-[clamp(3.5rem,15.5vw,14rem)] leading-[0.85] tracking-[0.08em] whitespace-nowrap text-white/[0.09]">
             ALKYONÍ
           </p>
         </div>
@@ -91,7 +95,7 @@ export function SiteFooter() {
         <div className="h-px bg-white/15" />
 
         <div className="flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="data-label text-white/40">
+          <p className="data-label text-white/60">
             © 2026 Alkyoní — Oía, Santoríni
           </p>
           <ul className="flex flex-wrap items-center gap-x-8 gap-y-2">
@@ -99,7 +103,7 @@ export function SiteFooter() {
               <li key={item}>
                 <a
                   href="#top"
-                  className="nav-link data-label relative text-white/40 transition-colors hover:text-white/80"
+                  className="nav-link data-label relative text-white/60 transition-colors hover:text-white/80"
                 >
                   {item}
                 </a>

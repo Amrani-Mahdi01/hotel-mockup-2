@@ -28,7 +28,11 @@ export function SiteHeader() {
   return (
     <header
       data-solid={solid}
-      className="fixed inset-x-0 top-0 z-50 border-b border-transparent text-white transition-[background-color,border-color,color,backdrop-filter] duration-500 data-[solid=true]:border-rule data-[solid=true]:bg-paper data-[solid=true]:text-ink data-[solid=true]:backdrop-blur-md"
+      // Over the hero photograph the marine focus ring is invisible, so switch
+      // the whole bar to white rings until it goes solid.
+      className={`fixed inset-x-0 top-0 z-50 border-b border-transparent text-white transition-[background-color,border-color,color,backdrop-filter] duration-500 data-[solid=true]:border-rule data-[solid=true]:bg-paper data-[solid=true]:text-ink data-[solid=true]:backdrop-blur-md ${
+        solid ? "" : "on-ink"
+      }`}
     >
       <div
         data-solid={solid}
@@ -64,7 +68,9 @@ export function SiteHeader() {
           <a
             href="#reserve"
             data-solid={solid}
-            className="sweep sweep-light reveal-fade relative isolate hidden overflow-hidden border border-white/60 px-6 py-2.5 text-[0.8125rem] tracking-[0.1em] uppercase transition-colors duration-300 hover:text-ink focus-visible:text-ink data-[solid=true]:border-ink data-[solid=true]:hover:text-paper data-[solid=true]:focus-visible:text-paper sm:block"
+            // Keep this one marine: the CTA sits over bright sky, where a white
+            // ring measures worse than the marine one.
+            className="sweep sweep-light reveal-fade relative isolate hidden overflow-hidden border border-white/60 px-6 py-2.5 text-[0.8125rem] tracking-[0.1em] uppercase transition-colors duration-300 hover:text-ink focus-visible:text-ink focus-visible:outline-[#0f4c81] data-[solid=true]:border-ink data-[solid=true]:hover:text-paper data-[solid=true]:focus-visible:text-paper sm:block"
             style={{ "--d": "0.5s" } as React.CSSProperties}
           >
             <span className="relative z-10">Reserve</span>
@@ -94,6 +100,9 @@ export function SiteHeader() {
       <div
         id="mobile-nav"
         data-open={open}
+        // Collapsing to 0fr only clips the panel — without `inert` its seven
+        // links stay focusable and the focus ring vanishes for seven tabs.
+        inert={!open}
         className="grid grid-rows-[0fr] overflow-hidden border-rule bg-paper text-ink transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,0.72,0.16,1)] data-[open=true]:grid-rows-[1fr] data-[open=true]:border-t lg:hidden"
       >
         <nav className="min-h-0">

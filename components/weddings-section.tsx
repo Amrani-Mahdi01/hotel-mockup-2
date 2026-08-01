@@ -61,16 +61,19 @@ export function WeddingsSection() {
           <div className="lg:col-span-6 lg:col-start-7 lg:self-center">
             <dl className="border-t border-rule">
               {TERMS.map((term, i) => (
-                <Reveal key={term.label} delay={0.06 * i}>
-                  {/* Stack on mobile so short pairs don't share a line while
-                      longer ones wrap — the row only reads as a list if it is
-                      consistent. */}
-                  <div className="flex flex-col gap-1 border-b border-rule py-6 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-8">
-                    <dt className="data-label text-muted">{term.label}</dt>
-                    <dd className="font-display text-[1.375rem] leading-none text-ink">
-                      {term.value}
-                    </dd>
-                  </div>
+                // Reveal is the dt/dd wrapper div itself: inside a <dl> that
+                // wrapper may contain only dt and dd, so it cannot be nested.
+                // Stacked on mobile so short pairs don't share a line while
+                // longer ones wrap — the rows only read as a list if consistent.
+                <Reveal
+                  key={term.label}
+                  delay={0.06 * i}
+                  className="flex flex-col gap-1 border-b border-rule py-6 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-8"
+                >
+                  <dt className="data-label text-muted">{term.label}</dt>
+                  <dd className="font-display text-[1.375rem] leading-none text-ink">
+                    {term.value}
+                  </dd>
                 </Reveal>
               ))}
             </dl>

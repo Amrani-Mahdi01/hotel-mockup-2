@@ -61,8 +61,8 @@ export function GettingHereSection() {
 
           <Reveal delay={0.1} className="lg:col-span-5">
             <p className="max-w-[42ch] text-[1.0625rem] leading-[1.75] text-muted">
-              Most guests are at the house within ninety minutes of landing in
-              Athens. The last stretch is the only part you do on foot.
+              Most guests are at the house within the hour of landing on the
+              island. The last stretch is the only part you do on foot.
             </p>
           </Reveal>
         </div>

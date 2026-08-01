@@ -32,7 +32,9 @@ function Stepper({
     <div className="flex items-center justify-between gap-6 py-4">
       <div>
         <p className="text-[1.0625rem] text-ink">{label}</p>
-        <p className="data-label mt-1 whitespace-nowrap text-muted">{note}</p>
+        {/* Only hold it on one line once there is room — at 320px the nowrap
+            pushed the stepper past the viewport edge. */}
+        <p className="data-label mt-1 text-muted sm:whitespace-nowrap">{note}</p>
       </div>
 
       <div className="flex items-center gap-3">
@@ -71,13 +73,19 @@ export function GuestsPanel({
   party,
   onChange,
   onDone,
+  placement,
 }: {
   party: Party;
   onChange: (p: Party) => void;
   onDone: () => void;
+  placement: "up" | "down";
 }) {
   return (
-    <div className="pop absolute right-0 bottom-full z-40 mb-4 w-[min(92vw,22rem)] border border-rule bg-paper p-5 shadow-[0_28px_60px_-28px_rgba(7,36,62,0.5)] sm:p-6 lg:right-auto lg:left-0">
+    <div
+      className={`pop absolute right-0 z-40 w-[min(92vw,22rem)] border border-rule bg-paper p-5 shadow-[0_28px_60px_-28px_rgba(7,36,62,0.5)] sm:p-6 lg:right-auto lg:left-0 ${
+        placement === "up" ? "bottom-full mb-4" : "top-full mt-4"
+      }`}
+    >
       <Stepper
         label="Adults"
         note="Aged 13 and over"

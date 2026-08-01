@@ -13,7 +13,7 @@ export function NewsletterForm() {
         if (email.trim()) setSent(true);
       }}
     >
-      <span className="data-label block text-white/50">Letters from the house</span>
+      <span className="data-label block text-white/65">Letters from the house</span>
       <p className="mt-3 max-w-[30ch] text-[1.0625rem] leading-[1.7] text-white/75">
         Twice a year we write about the season, the table, and when the sea is
         warmest. No more often than that.
@@ -30,7 +30,7 @@ export function NewsletterForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full bg-transparent py-3 text-[1.0625rem] text-white outline-none placeholder:text-white/35"
+          className="w-full bg-transparent py-3 text-[1.0625rem] text-white outline-none placeholder:text-white/55"
         />
         <button
           type="submit"
